@@ -6,7 +6,7 @@ import akka.pattern.ask
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import com.datio.akka.demo.Constants._
-import com.datio.akka.demo.actor.AActor
+import com.datio.akka.demo.actor.DirectorActor
 
 import scala.concurrent.duration._
 
@@ -22,12 +22,12 @@ object StarWarsApp extends App {
   val log = Logging(system, getClass)
 
   log.info(s"${getClass.getName()} Initialising construction")
-  val directorActor = system.actorOf(Props[AActor], DIRECTOR_KEY)
+  val directorActor = system.actorOf(Props[DirectorActor], DIRECTOR_KEY)
   //Actor first call with message
-  val future = directorActor ? A()
+  val future = directorActor ? RequestBuilding()
 
   future onSuccess {
-    case response: E =>
+    case response: ResponseBuilding =>
       log.info(s">>> ---------------------------------")
       log.info(s">>> ${response.message}")
       log.info(s">>> execution : ${response.execution}")
