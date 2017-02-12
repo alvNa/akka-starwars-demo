@@ -8,7 +8,7 @@ object MinerActor {
 }
 
 /**
-  * Minner
+  * This actor is in charge of provide materials for building the Death Star according to the plan
   * */
 class MinerActor extends Actor with ActorLogging{
 

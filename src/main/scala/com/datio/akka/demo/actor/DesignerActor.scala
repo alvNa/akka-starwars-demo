@@ -10,7 +10,7 @@ object DesignerActor {
 }
 
 /**
-  * Designer
+  *  This actor is in charge of design the plans for building the Death Star.
   */
 class DesignerActor extends Actor with ActorLogging{
 

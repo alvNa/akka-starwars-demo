@@ -10,7 +10,7 @@ object WorkerActor {
 }
 
 /**
-  * Worker
+  * This actor is in charge of building the Death Star assembling the materials according to the plan
   * */
 class WorkerActor extends Actor with ActorLogging{
 
