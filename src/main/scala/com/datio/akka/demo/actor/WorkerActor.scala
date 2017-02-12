@@ -11,14 +11,14 @@ object WorkerActor {
 
 /**
   * This actor is in charge of building the Death Star assembling the materials according to the plan
-  * */
-class WorkerActor extends Actor with ActorLogging{
+  **/
+class WorkerActor extends Actor with ActorLogging {
 
   def receive: Receive = {
     case d: RequestWorkerBuilding => handleRequest(d)
   }
 
-  private def handleRequest(request:RequestWorkerBuilding){
+  private def handleRequest(request: RequestWorkerBuilding) {
     log.info(s"${getClass.getName()} Building Death Star ...")
 
     val message = ResponseBuilding("Construction ready for doing evil ", "FINISHED", request.plans.zip(request.materials))

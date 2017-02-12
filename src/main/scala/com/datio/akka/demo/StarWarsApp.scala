@@ -23,7 +23,7 @@ object StarWarsApp extends App {
 
   log.info(s">>> ${getClass.getName()} Initialising construction")
   val directorActor = system.actorOf(Props[DirectorActor], DIRECTOR_KEY)
-  //Actor first call with message
+  //Actor's first call with message
   val future = directorActor ? RequestBuilding()
 
   future onSuccess {

@@ -9,18 +9,17 @@ object DirectorActor {
 }
 
 /**
-  *  This actor manages others actors for getting plans and materials
-  *  before ordering the building of the Death Star.
+  * This actor manages others actors for getting plans and materials
+  * before ordering the building of the Death Star.
   */
-class DirectorActor extends Actor with ActorLogging{
+class DirectorActor extends Actor with ActorLogging {
 
   val bActor = context.child(DESIGNER_KEY).getOrElse(context.actorOf(Props(classOf[DesignerActor]), DESIGNER_KEY))
   val cActor = context.child(MINER_KEY).getOrElse(context.actorOf(Props(classOf[MinerActor]), MINER_KEY))
   val dActor = context.child(WORKER_KEY).getOrElse(context.actorOf(Props(classOf[WorkerActor]), WORKER_KEY))
 
-
-  private var originalSender:Option[ActorRef] = None
-  private var plans : List[String] = List.empty
+  private var originalSender: Option[ActorRef] = None
+  private var plans: List[String] = List.empty
 
   def receive: Receive = {
     case a: RequestBuilding => handleRequestBuilding(a)
@@ -29,24 +28,24 @@ class DirectorActor extends Actor with ActorLogging{
     case e: ResponseBuilding => handleResponseBuilding(e)
   }
 
-  private def handleRequestBuilding(requestBuilding:RequestBuilding) {
+  private def handleRequestBuilding(requestBuilding: RequestBuilding) {
     log.info(s"${getClass.getName()} Orchestrating building ...")
     originalSender = Some(sender)
     bActor ! requestBuilding
   }
 
-  private def handleResponsePlans(responsePlans:ResponsePlans)={
+  private def handleResponsePlans(responsePlans: ResponsePlans) = {
     log.info(s"${getClass.getName()} Receiving plans...")
     plans = responsePlans.plans
     cActor ! responsePlans
   }
 
-  private def handleResponseMaterials(responseMaterials:ResponseMaterials)={
+  private def handleResponseMaterials(responseMaterials: ResponseMaterials) = {
     log.info(s"${getClass.getName()} Receiving materials...")
     dActor ! RequestWorkerBuilding(plans, responseMaterials.materials)
   }
 
-  private def handleResponseBuilding(responseBuilding : ResponseBuilding){
+  private def handleResponseBuilding(responseBuilding: ResponseBuilding) {
     log.info(s"${getClass.getName()} Receiving building...")
     originalSender.get ! responseBuilding
   }
