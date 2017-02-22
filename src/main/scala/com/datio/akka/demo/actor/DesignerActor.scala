@@ -4,7 +4,7 @@ import akka.actor.{Actor, ActorLogging, Props}
 import com.datio.akka.demo.{RequestBuilding, ResponsePlans}
 
 object DesignerActor {
-  def props(): Props = Props(new DesignerActor())
+  def props(): Props = Props(classOf[DesignerActor])
 }
 
 /**
@@ -13,10 +13,10 @@ object DesignerActor {
 class DesignerActor extends Actor with ActorLogging{
 
   def receive: Receive = {
-    case _: RequestBuilding => handleRequest()
+    case requestBuilding: RequestBuilding => handleRequest()
   }
 
-  private def handleRequest(){
+  private def handleRequest() = {
     log.info(s"${getClass.getName()} Designing plans ...")
     val response = ResponsePlans(List[String]("sectionA","sectionB","sectionC"))
 
